@@ -11,46 +11,40 @@ namespace EmoloyeeWage
     {
         public const int IS_FULL_TIME = 1;
         public const int IS_PART_TIME = 2;
-        public const int EMP_RATE_PER_HOUR = 20;    //Considered per Hr rate -20 .
-        public const int NUM_OF_WORKING_DAYS = 4;      //Considered Woriking days
-        public const int MAX_HRS_IN_MONTH = 16;        //Considered Emp can max work only 16 hrs in a month .
-        public static int ComputeEmpWage()      //Calculate Emp Wage .
+        public static int ComputeEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)
         {
-            int empHrs;
-            int totalEmpHrs = 0;
-            int totalWorkingDays = 0;
-            while (totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS) 
+            int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;      //variables
+            while (totalEmpHrs <= maxHoursPerMonth && totalWorkingDays < numOfWorkingDays)       //computation
             {
                 totalWorkingDays++;
                 Random random = new Random();
-                int empCheck = random.Next(0, 3);   //output will confirm if the Emp is working as Full_time , Part_time or Absent .
+                int empCheck = random.Next(3);
                 switch (empCheck)
                 {
-                    case IS_FULL_TIME:
-                        empHrs = 8;
-                        break;
                     case IS_PART_TIME:
                         empHrs = 4;
+                        break;
+                    case IS_FULL_TIME:
+                        empHrs = 8;
                         break;
                     default:
                         empHrs = 0;
                         break;
                 }
-                totalEmpHrs += empHrs;
-                if (totalEmpHrs > MAX_HRS_IN_MONTH)  //totalEmpHrs should not go beyond defined MaxHrs .
+                totalEmpHrs += empHrs;//as the no of working days will be passing the total no of working hours
+                if (totalEmpHrs > maxHoursPerMonth)  //totalEmpHrs should not go beyond defined MaxHrs .
                 {
-                    totalEmpHrs = MAX_HRS_IN_MONTH;
+                    totalEmpHrs = maxHoursPerMonth;
                 }
-                Console.WriteLine("Day#:" + totalWorkingDays + "  " + "Working Hours : " + empHrs);
             }
-            int totalEmpWage = totalEmpHrs * EMP_RATE_PER_HOUR;     //totalWage is nothing but the product of no of hours he have been worked with his rate .
-            Console.WriteLine("Total Emp Wage : " + totalEmpWage);
+            int totalEmpWage = totalEmpHrs * empRatePerHour;//per hour rate * total working hour to find wage .
+            Console.WriteLine($"Total Emp Wage for the Company \"{company}\" is : {totalEmpWage}");
             return totalEmpWage;
         }
         static void Main(string[] args)
         {
-            ComputeEmpWage();
-
+            ComputeEmpWage("Dmart", 20, 3, 10);
+            ComputeEmpWage("Reliance", 25, 4, 20);
         }
     }
 }
