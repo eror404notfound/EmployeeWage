@@ -9,46 +9,47 @@ namespace EmoloyeeWage
    
     internal class Program
     {
-        public const int IS_PART_TIME = 1;
-        public const int IS_FULL_TIME = 2;
-        public const int EMP_RATE_PER_HOUR = 20;
-        public const int NUM_OF_WORKING_DAYS = 20;
-        public const int MAX_HRS_IN_MONTH = 100;
-
-        static void Main(string[] args)
+        public const int IS_FULL_TIME = 1;
+        public const int IS_PART_TIME = 2;
+        public const int EMP_RATE_PER_HOUR = 20;    //Considered per Hr rate -20 .
+        public const int NUM_OF_WORKING_DAYS = 4;      //Considered Woriking days
+        public const int MAX_HRS_IN_MONTH = 16;        //Considered Emp can max work only 16 hrs in a month .
+        public static int ComputeEmpWage()      //Calculate Emp Wage .
         {
-            //variables
-            int empHrs = 0;
+            int empHrs;
             int totalEmpHrs = 0;
             int totalWorkingDays = 0;
-            //computation
-            while (totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS)
+            while (totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS) 
             {
                 totalWorkingDays++;
                 Random random = new Random();
-                int empCheck = random.Next(0, 3);
+                int empCheck = random.Next(0, 3);   //output will confirm if the Emp is working as Full_time , Part_time or Absent .
                 switch (empCheck)
                 {
                     case IS_FULL_TIME:
                         empHrs = 8;
                         break;
-
                     case IS_PART_TIME:
                         empHrs = 4;
                         break;
-
                     default:
                         empHrs = 0;
                         break;
                 }
                 totalEmpHrs += empHrs;
-                Console.WriteLine("Days#:" + totalWorkingDays + "Emp Hrs :" + empHrs);
+                if (totalEmpHrs > MAX_HRS_IN_MONTH)  //totalEmpHrs should not go beyond defined MaxHrs .
+                {
+                    totalEmpHrs = MAX_HRS_IN_MONTH;
+                }
+                Console.WriteLine("Day#:" + totalWorkingDays + "  " + "Working Hours : " + empHrs);
             }
-            int totalEmpWage = totalEmpHrs * EMP_RATE_PER_HOUR;
+            int totalEmpWage = totalEmpHrs * EMP_RATE_PER_HOUR;     //totalWage is nothing but the product of no of hours he have been worked with his rate .
             Console.WriteLine("Total Emp Wage : " + totalEmpWage);
-
-
-            Console.ReadLine();
+            return totalEmpWage;
+        }
+        static void Main(string[] args)
+        {
+            ComputeEmpWage();
 
         }
     }
