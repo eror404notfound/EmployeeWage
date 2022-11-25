@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace EmoloyeeWage
 {
-    internal class CompanyEmployeeWage
+    public class CompanyEmpWage
     {
         public string company;
         public int empRatePerHour;
         public int numOfWorkingDays;
         public int maxHoursPerMonth;
         public int totalEmpWage;
-        public CompanyEmployeeWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)//initializing all variabeles
+        public CompanyEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)//initializing all variabeles
         {
             this.company = company;
             this.empRatePerHour = empRatePerHour;

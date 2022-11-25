@@ -6,55 +6,51 @@ using System.Threading.Tasks;
 
 namespace EmoloyeeWage
 {
-    internal class CompanyEmpWage 
+    public class EmpWageBuilderArray : IComputeEmpWage
     {
-        public class EmpWageBuilderArray
+        public const int IS_PART_TIME = 1;
+        public const int IS_FULL_TIME = 2;
+        List<CompanyEmpWage> listObj = new List<CompanyEmpWage>();  //using List .
+        private CompanyEmpWage companyEmpWageObj;
+        public void AddCompanyEmpWage(string company, int empRateperHour, int numOfWorkingDays, int maxHoursPermonth)
         {
-            public const int IS_PART_TIME = 1;
-            public const int IS_FULL_TIME = 2;
-            private int numOfCompany = 0;   
-            private CompanyEmpWage[] companyEmpWageArray;
-            public EmpWageBuilderArray()            {
-                this.companyEmpWageArray = new CompanyEmpWage[5];
-            public void AddCompanyEmpWage(string company, int empRateperHour, int numOfWorkingDays, int maxHoursPermonth)
+            this.companyEmpWageObj = new CompanyEmpWage(company, empRateperHour, numOfWorkingDays, maxHoursPermonth);
+            listObj.Add(this.companyEmpWageObj);
+        }
+        public void ComputeEmpWage()
+        {
+            foreach (var item in listObj)
             {
-                companyEmpWageArray[this.numOfCompany] = new CompanyEmpWage(company, empRateperHour, numOfWorkingDays, maxHoursPermonth);
-                numOfCompany++; 
+                companyEmpWageObj.SetTotalEmpWage(ComputeEmpWage(item));
+                item.SetTotalEmpWage(companyEmpWageObj.totalEmpWage);
+                Console.WriteLine(item.ToString());
             }
-            public void ComputeEmpWage()
+        }
+        private int ComputeEmpWage(CompanyEmpWage companyEmpWage)
+        {
+            int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;
+            while (totalEmpHrs <= companyEmpWage.maxHoursPerMonth && totalWorkingDays < companyEmpWage.numOfWorkingDays)
             {
-                for (int i = 0; i < numOfCompany; i++)
+                totalWorkingDays++;
+                Random random = new Random();
+                int empCheck = random.Next(0, 3);
+                switch (empCheck)
                 {
-                    companyEmpWageArray[i].setTotalEmpWage(this.ComputeEmpWage(this.companyEmpWageArray[i]));
-                    Console.WriteLine(this.companyEmpWageArray[i].ToString());
+                    case IS_PART_TIME:
+                        empHrs = 4;
+                        break;
+                    case IS_FULL_TIME:
+                        empHrs = 8;
+                        break;
+                    default:
+                        empHrs = 0;
+                        break;
                 }
+                totalEmpHrs += empHrs;
+                int wageUpToDate = totalEmpHrs * companyEmpWage.empRatePerHour;//calculating till the date earned amount .
+                Console.WriteLine("Days#:" + totalWorkingDays + " Emp Hrs:" + empHrs + " and Wage till day " + totalWorkingDays + " is:" + wageUpToDate);
             }
-            private int ComputeEmpWage(CompanyEmpWage companyEmpWage)
-            {
-                int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;
-                while (totalEmpHrs <= companyEmpWage.maxHoursPerMonth && totalWorkingDays < companyEmpWage.numOfWorkingDays)
-                {
-                    totalWorkingDays++;
-                    Random random = new Random();
-                    int empCheck = random.Next(0, 3);
-                    switch (empCheck)
-                    {
-                        case IS_PART_TIME:
-                            empHrs = 4;
-                            break;
-                        case IS_FULL_TIME:
-                            empHrs = 8;
-                            break;
-                        default:
-                            empHrs = 0;
-                            break;
-                    }
-                    totalEmpHrs += empHrs;
-                    Console.WriteLine("Days#:" + totalWorkingDays + "Emp Hrs : " + empHrs);
-                }
-                return totalEmpHrs * companyEmpWage.empRatePerHour;
-            }
+            return totalEmpHrs * companyEmpWage.empRatePerHour;
         }
     }
 }
-
