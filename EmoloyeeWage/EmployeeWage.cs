@@ -1,13 +1,13 @@
-﻿using System;
+﻿using EmoloyeeWage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 namespace EmployeeWageDemo
 {
-     internal class program
-    { 
-        public
+    class Program
+    {
         static void Main(string[] args)
         {
             EmpWageBuilderArray empWageBuilder = new EmpWageBuilderArray();
